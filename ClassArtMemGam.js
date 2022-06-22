@@ -1,6 +1,6 @@
-function createNames() {
-	let i = 0;
-	while (i < 9) {
-		console.log(`<>`);
-	}
-}
+document.querySelector('#boardgame').addEventListener('click',(e)=> {
+	let cardID = e.target.id;
+	let elem = document.querySelector(`#${cardID}`);
+	return elem.classList.add("rewers");
+	
+})
