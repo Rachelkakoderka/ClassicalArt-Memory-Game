@@ -58,7 +58,7 @@ font-family: 'Dancing Script', cursive;
     border-radius: 12px;
     border: 3px solid #A03978;
     filter: brightness(90%);
-    transition: all .2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: scale .3s cubic-bezier(0.165, 0.84, 0.44, 1);
        
     
 
@@ -67,10 +67,12 @@ font-family: 'Dancing Script', cursive;
 .card:hover {
     filter: brightness(100%);
    transform: scale(1.05);
+   cursor: pointer;
 }
-rewers {
-filter: brightness(100%);
-    transform: scale(1.05);
+.flipped {
+    width: 98%;
+    height: 98%;
+    filter: brightness(100%);
     background-image: url("card-img/zero.jpg");
     background-size: cover;
     background-position: center;
