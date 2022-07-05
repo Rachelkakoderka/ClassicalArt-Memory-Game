@@ -36,7 +36,10 @@ const cards = {
 // shuffling cards
 
 function startGame() {
-	unflipCards();
+
+	document.querySelector("#start").classList.add("disabled");
+
+
 
 	function shuffle() {
 		let a = () => Math.floor(Math.random() * 12);
@@ -67,8 +70,6 @@ function startGame() {
 	// console.log(elemNodes[0].innerHTML);
 	// document.querySelector("#score").innerHTML = `Your moves: ${gameState.turns}`;
 	document.querySelector("#boardgame").addEventListener("click", turn);
-
-	document.querySelector("#start").innerHTML = `Restart`;
 }
 
 function flipCard(card) {
