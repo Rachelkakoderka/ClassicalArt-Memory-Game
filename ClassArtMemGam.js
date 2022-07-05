@@ -1,5 +1,5 @@
 // even delegation using bubbling to minimize amoount of eventListerners
-document.querySelector("#boardgame").addEventListener("click", turn);
+document.querySelector("#start").addEventListener("click", startGame);
 
 const artpiece = [
 	"zero.jpg",
@@ -8,60 +8,99 @@ const artpiece = [
 	"three.jpg",
 	"four.jpg",
 	"five.jpg",
+	"zero.jpg",
+	"one.jpg",
+	"two.jpg",
+	"three.jpg",
+	"four.jpg",
+	"five.jpg",
 ];
-
-// assigning random artpiece
-
-function assignArt() {}
 
 const gameState = {
 	cardsFlipped: 0,
 	cardsGuessed: 0,
 	turns: 0,
-	matches: 0,
+	gameStarted: false,
 };
 
 const cards = {
 	firstCard: {
-		selector: undefined,
 		img: undefined,
 	},
 
 	secondCard: {
-		selector: undefined,
 		img: undefined,
 	},
 };
 
+// shuffling cards
+
+function startGame() {
+	unflipCards();
+
+	function shuffle() {
+		let a = () => Math.floor(Math.random() * 12);
+		let divArr = [];
+		for (i = 0; i < 12; i++) {
+			while (divArr.length < 12) {
+				let position = a();
+
+				if (!divArr.includes(position)) {
+					divArr.push(position);
+				}
+			}
+		}
+		return divArr;
+	}
+
+	let newBoardGame = shuffle();
+	console.log(newBoardGame);
+
+	let elemNodes = [...document.querySelectorAll(".card")];
+	// console.log(elemNodes[0].innerHTML);
+
+	for (i = 0; i < 12; i++) {
+		elemNodes[i].innerHTML = `<img src="card-img/${
+			artpiece[newBoardGame[i]]
+		}">`;
+	}
+	// console.log(elemNodes[0].innerHTML);
+	// document.querySelector("#score").innerHTML = `Your moves: ${gameState.turns}`;
+	document.querySelector("#boardgame").addEventListener("click", turn);
+
+	document.querySelector("#start").innerHTML = `Restart`;
+}
 
 function flipCard(card) {
-card.classList.remove("card-unflipped");
-card.classList.add("flipped");
+	card.classList.remove("card-unflipped");
+	card.classList.add("flipped");
 }
 
-function hideCards(card){
-	document.querySelector("#score").innerHTML = `Your moves: ${gameState.turns}`;
- gameState.cardsGuessed+=2;
-return setTimeout(() => {
-	document.querySelectorAll(".flipped:not(.matched)").forEach((x) => {
-		x.classList.add("matched");
-		gameState.cardsFlipped = 0;
-	});
-}, 500);
+function hideCards() {
+	// document.querySelector("#score").innerHTML = `Your moves: ${gameState.turns}`;
+	gameState.cardsGuessed += 2;
+	return setTimeout(() => {
+		document.querySelectorAll(".flipped:not(.matched)").forEach((x) => {
+			x.classList.add("matched");
+			gameState.cardsFlipped = 0;
+		});
+	}, 500);
 }
-function unflipCards(){
-	document.querySelector("#score").innerHTML = `Your moves: ${gameState.turns}`;
-return setTimeout(() => {
-	document.querySelectorAll(".card.flipped:not(.matched)").forEach((x) => {
-		x.classList.add("card-unflipped");
-		x.classList.remove("flipped");
-		gameState.cardsFlipped = 0;
-	});
-}, 1000);
-};
+function unflipCards() {
+	// document.querySelector("#score").innerHTML = `Your moves: ${gameState.turns}`;
+	return setTimeout(() => {
+		document.querySelectorAll(".card.flipped:not(.matched)").forEach((x) => {
+			x.classList.add("card-unflipped");
+			x.classList.remove("flipped");
+			gameState.cardsFlipped = 0;
+		});
+	}, 1000);
+}
 
 function congrats() {
-	document.querySelector("#score").innerHTML = `Congratulations! <br> You finished the game in ${gameState.turns} moves!`;
+	document.querySelector(
+		"#score"
+	).innerHTML = `Congratulations! <br> You finished the game in ${gameState.turns} moves!`;
 }
 
 function turn(event) {
@@ -70,7 +109,6 @@ function turn(event) {
 
 	//dont let more than 2 cards to be flipped in a turn
 	if (gameState.cardsFlipped < 2) {
-
 		// checking if a card clicked and not the gap in grid
 		//is clicked card first or second card flipped?
 		if (event.target.localName === "div") {
@@ -88,7 +126,7 @@ function turn(event) {
 				//if cards are the same hide them:
 				if (cards.firstCard.img === cards.secondCard.img) {
 					hideCards();
-					if (gameState.cardsGuessed===12){
+					if (gameState.cardsGuessed === 12) {
 						congrats();
 					}
 				} else {
@@ -96,8 +134,6 @@ function turn(event) {
 					unflipCards();
 				}
 				//udate info about score
-				
-			
 			} else {
 				//if first is clicked
 
@@ -114,4 +150,3 @@ function turn(event) {
 		}
 	}
 }
-//dodaj throttling
