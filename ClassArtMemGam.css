@@ -1,7 +1,7 @@
 body {
     color: black;
     font-family: 'Josefin Sans', sans-serif;
-    font-family: 'Lato', sans-serif;        
+    font-family: 'Lato', sans-serif;       
     user-select: none;
     background-image: url(bg-scales.png);
 }
@@ -56,18 +56,17 @@ font-size: medium;
 letter-spacing: 2px;
 transition: transform .3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
-#start:hover {
-    transform: scale(1.05);
-    cursor: pointer;
-}
+
 
 .disabled {
     filter: brightness(90%);
     transform:unset;
 }
 
-.disabled:hover {
-transform: none;
+.gameNotStarted:hover {
+    transform: scale(1.05);
+        cursor: pointer;
+
 }
 
 #score {
@@ -110,7 +109,7 @@ filter: brightness(90%);
     background-position: center;
 }
 
-.card-unflipped:hover {
+.gameStarted:hover {
     filter: brightness(100%);
    transform: scale(1.05);
    cursor: pointer;
@@ -131,6 +130,11 @@ filter: brightness(90%);
 }
 .matched img{
     visibility: hidden;
+    
+}
+
+.endPanel {
+    text-align: center;
     
 }
 

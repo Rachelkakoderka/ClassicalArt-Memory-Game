@@ -33,43 +33,59 @@ const cards = {
 	},
 };
 
+function buttonStateSwitch() {
+	let startButton = document.querySelector("#start");
+
+	if (gameState.gameStarted) {
+		startButton.classList.add("disabled");
+		startButton.classList.remove("gameNotStarted");
+	} else {
+		startButton.classList.remove("disabled");
+		startButton.classList.add("gameNotStarted");
+	}
+}
+
 // shuffling cards
 
 function startGame() {
+	if (!gameState.gameStarted) {
+		gameState.gameStarted = true;
+		buttonStateSwitch();
 
-	document.querySelector("#start").classList.add("disabled");
+		document.querySelectorAll(".card").forEach((x) => {
+			x.classList.add("gameStarted");
+		});
 
+		function shuffle() {
+			let a = () => Math.floor(Math.random() * 12);
+			let divArr = [];
+			for (i = 0; i < 12; i++) {
+				while (divArr.length < 12) {
+					let position = a();
 
-
-	function shuffle() {
-		let a = () => Math.floor(Math.random() * 12);
-		let divArr = [];
-		for (i = 0; i < 12; i++) {
-			while (divArr.length < 12) {
-				let position = a();
-
-				if (!divArr.includes(position)) {
-					divArr.push(position);
+					if (!divArr.includes(position)) {
+						divArr.push(position);
+					}
 				}
 			}
+			return divArr;
 		}
-		return divArr;
+
+		let newBoardGame = shuffle();
+		console.log(newBoardGame);
+
+		let elemNodes = [...document.querySelectorAll(".card")];
+		// console.log(elemNodes[0].innerHTML);
+
+		for (i = 0; i < 12; i++) {
+			elemNodes[i].innerHTML = `<img src="card-img/${
+				artpiece[newBoardGame[i]]
+			}">`;
+		}
+		// console.log(elemNodes[0].innerHTML);
+		// document.querySelector("#score").innerHTML = `Your moves: ${gameState.turns}`;
+		document.querySelector("#boardgame").addEventListener("click", game);
 	}
-
-	let newBoardGame = shuffle();
-	console.log(newBoardGame);
-
-	let elemNodes = [...document.querySelectorAll(".card")];
-	// console.log(elemNodes[0].innerHTML);
-
-	for (i = 0; i < 12; i++) {
-		elemNodes[i].innerHTML = `<img src="card-img/${
-			artpiece[newBoardGame[i]]
-		}">`;
-	}
-	// console.log(elemNodes[0].innerHTML);
-	// document.querySelector("#score").innerHTML = `Your moves: ${gameState.turns}`;
-	document.querySelector("#boardgame").addEventListener("click", turn);
 }
 
 function flipCard(card) {
@@ -99,12 +115,16 @@ function unflipCards() {
 }
 
 function congrats() {
-	document.querySelector(
-		"#score"
-	).innerHTML = `Congratulations! <br> You finished the game in ${gameState.turns} moves!`;
+	let endPanel = document.querySelector("#score");
+
+	endPanel.classList.add("endPanel");
+	endPanel.innerHTML = `Congratulations! <br> You finished the game in ${gameState.turns} moves! \n Do you want to play again?`;
+	gameState.gameStarted = false;
+	gameState.cardsGuessed = 0;
+	buttonStateSwitch();
 }
 
-function turn(event) {
+function game(event) {
 	let cardID = event.target.id;
 	let elem = document.querySelector(`#${cardID}`); //returns <div class="card" id="0"></div>
 
