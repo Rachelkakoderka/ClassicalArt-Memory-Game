@@ -36,7 +36,6 @@ const cards = {
 let startButton = document.querySelector("#start");
 
 function buttonStateSwitch() {
-
 	if (gameState.gameStarted) {
 		startButton.classList.add("disabled");
 		startButton.classList.remove("gameNotStarted");
@@ -64,8 +63,6 @@ function shuffle() {
 	return divArr;
 }
 
-
-
 function startGame() {
 	if (!gameState.gameStarted) {
 		gameState.gameStarted = true;
@@ -75,18 +72,16 @@ function startGame() {
 			x.classList.add("gameStarted");
 		});
 
-		
 		let newBoardGame = shuffle();
-		
 
 		let elemNodes = [...document.querySelectorAll(".card")];
-		
+
 		for (i = 0; i < 12; i++) {
 			elemNodes[i].innerHTML = `<img src="card-img/${
 				artpiece[newBoardGame[i]]
 			}">`;
 		}
-		
+
 		document.querySelector("#boardgame").addEventListener("click", game);
 	}
 }
@@ -126,13 +121,11 @@ function congrats() {
 	gameState.cardsGuessed = 0;
 	buttonStateSwitch();
 	startButton.addEventListener("click", reload);
-	
 }
 
 function reload() {
 	window.location.reload(true);
 }
-
 
 function game(event) {
 	let cardID = event.target.id;
