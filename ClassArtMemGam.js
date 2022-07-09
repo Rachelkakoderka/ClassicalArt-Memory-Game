@@ -33,12 +33,14 @@ const cards = {
 	},
 };
 
+let startButton = document.querySelector("#start");
+
 function buttonStateSwitch() {
-	let startButton = document.querySelector("#start");
 
 	if (gameState.gameStarted) {
 		startButton.classList.add("disabled");
 		startButton.classList.remove("gameNotStarted");
+		startButton.removeEventListener("click", game);
 	} else {
 		startButton.classList.remove("disabled");
 		startButton.classList.add("gameNotStarted");
@@ -46,6 +48,23 @@ function buttonStateSwitch() {
 }
 
 // shuffling cards
+
+function shuffle() {
+	let a = () => Math.floor(Math.random() * 12);
+	let divArr = [];
+	for (i = 0; i < 12; i++) {
+		while (divArr.length < 12) {
+			let position = a();
+
+			if (!divArr.includes(position)) {
+				divArr.push(position);
+			}
+		}
+	}
+	return divArr;
+}
+
+
 
 function startGame() {
 	if (!gameState.gameStarted) {
@@ -56,34 +75,18 @@ function startGame() {
 			x.classList.add("gameStarted");
 		});
 
-		function shuffle() {
-			let a = () => Math.floor(Math.random() * 12);
-			let divArr = [];
-			for (i = 0; i < 12; i++) {
-				while (divArr.length < 12) {
-					let position = a();
-
-					if (!divArr.includes(position)) {
-						divArr.push(position);
-					}
-				}
-			}
-			return divArr;
-		}
-
+		
 		let newBoardGame = shuffle();
-		console.log(newBoardGame);
+		
 
 		let elemNodes = [...document.querySelectorAll(".card")];
-		// console.log(elemNodes[0].innerHTML);
-
+		
 		for (i = 0; i < 12; i++) {
 			elemNodes[i].innerHTML = `<img src="card-img/${
 				artpiece[newBoardGame[i]]
 			}">`;
 		}
-		// console.log(elemNodes[0].innerHTML);
-		// document.querySelector("#score").innerHTML = `Your moves: ${gameState.turns}`;
+		
 		document.querySelector("#boardgame").addEventListener("click", game);
 	}
 }
@@ -122,7 +125,14 @@ function congrats() {
 	gameState.gameStarted = false;
 	gameState.cardsGuessed = 0;
 	buttonStateSwitch();
+	startButton.addEventListener("click", reload);
+	
 }
+
+function reload() {
+	window.location.reload(true);
+}
+
 
 function game(event) {
 	let cardID = event.target.id;
