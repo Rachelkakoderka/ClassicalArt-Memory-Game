@@ -33,7 +33,7 @@ const cards = {
 	},
 };
 
-let startButton = document.querySelector("#start");
+const startButton = document.querySelector("#start");
 
 function buttonStateSwitch() {
 	if (gameState.gameStarted) {
@@ -92,7 +92,7 @@ function flipCard(card) {
 }
 
 function hideCards() {
-	// document.querySelector("#score").innerHTML = `Your moves: ${gameState.turns}`;
+	
 	gameState.cardsGuessed += 2;
 	return setTimeout(() => {
 		document.querySelectorAll(".flipped:not(.matched)").forEach((x) => {
@@ -102,7 +102,7 @@ function hideCards() {
 	}, 500);
 }
 function unflipCards() {
-	// document.querySelector("#score").innerHTML = `Your moves: ${gameState.turns}`;
+	
 	return setTimeout(() => {
 		document.querySelectorAll(".card.flipped:not(.matched)").forEach((x) => {
 			x.classList.add("card-unflipped");
@@ -117,6 +117,7 @@ function congrats() {
 
 	endPanel.classList.add("endPanel");
 	endPanel.innerHTML = `Congratulations! <br> You finished the game in ${gameState.turns} moves! \n Do you want to play again?`;
+	
 	gameState.gameStarted = false;
 	gameState.cardsGuessed = 0;
 	buttonStateSwitch();
