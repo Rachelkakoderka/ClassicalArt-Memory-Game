@@ -6,6 +6,15 @@ body {
     box-sizing: border-box;
 }
 
+a {
+    text-decoration: none;
+    color: black;
+    
+}
+a:hover {
+    color: #A03978
+}
+
 main {
     margin-top: 1rem;
     margin-right: auto;
@@ -138,5 +147,10 @@ filter: brightness(90%);
 .endPanel {
     text-align: center;
     
+}
+
+footer {
+    text-align: center;
+    margin: 10px;
 }
 
